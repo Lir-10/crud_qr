@@ -19,7 +19,7 @@ class UserController extends Controller
         $users = User::all();
         return view('dashboard/users', compact('users'));
     }
-    
+
 
     /**
      * Show the form for creating a new resource.
@@ -48,11 +48,21 @@ class UserController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => Hash::make($request->password)
         ]);
 
-        //return redirect()->route('user.index')
-        //->with('success', 'User created successfully.');
+        // Generar QR
+
+        \QrCode::size(100)
+                ->format('svg')
+                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.svg'));
+
+        // Actualizamos ruta de qR
+        $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.svg';
+        $user->save();
+
+        return redirect()->route('user.index')
+        ->with('success', 'User created successfully.');
     }
 
     /**
@@ -97,6 +107,18 @@ class UserController extends Controller
 
         User::where('id', $id)->update($data);
 
+        $user = User::find($id);
+
+        if ($user->qr == null) {
+            \QrCode::size(100)
+                ->format('svg')
+                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.svg'));
+
+            // Actualizamos ruta de qR
+            $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.svg';
+            $user->save();
+        }
+
         return redirect()->route('user.index');
     }
 
@@ -111,11 +133,18 @@ class UserController extends Controller
         $user = User::find($id)->delete();
         return redirect()->route('user.index')
         ->with('Completado', 'Usuario eliminado correctamente');
-     }    
-     public function showqr(Request $id){
+    }
+
+    /**
+     * Obtener la ruta del QR del usuario.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showqr($id){
         $user = User::find($id);
-        
-        return view('dashboard/user_qr');
+
+        return response()->json(['route' => $user->qr], 200);
     }
 
 }
