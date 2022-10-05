@@ -61,8 +61,7 @@ class UserController extends Controller
         $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.svg';
         $user->save();
 
-        return redirect()->route('user.index')
-        ->with('success', 'User created successfully.');
+        return redirect()->route('user.index');
     }
 
     /**
