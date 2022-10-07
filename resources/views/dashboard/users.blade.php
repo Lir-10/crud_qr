@@ -82,7 +82,7 @@
                 title: 'QR',
                 html: `
                     <div class="flex justify-content-center">
-                        <img src="qrs/${route}" />
+                        <img src="qrs/{{ $user->qr }}">
                     </div>
                 `,
                 showCloseButton: true,

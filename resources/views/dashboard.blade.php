@@ -14,8 +14,7 @@
 
                     <div class="visible-print text-center">
                         {!! QrCode::size(100)->generate
-                            ("Usuario: ".Request::user()->name." 
-"."Correo: ".Request::user()->email); !!}
+                            (Request::user()->email); !!}
                         <p>Datos del Usuario en QR.</p>
                     </div>
                 </div>

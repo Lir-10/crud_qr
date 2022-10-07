@@ -44,6 +44,14 @@ class RegisteredUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        // Generar QR
+
+        \QrCode::size(100)
+                ->format('png')
+                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.png'));
+        // Actualizamos ruta de qR
+        $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.png';
+        $user->save();
 
         event(new Registered($user));
 

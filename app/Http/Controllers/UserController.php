@@ -49,16 +49,17 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password)
+            
         ]);
 
         // Generar QR
 
         \QrCode::size(100)
-                ->format('svg')
-                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.svg'));
+                ->format('png')
+                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.png'));
 
         // Actualizamos ruta de qR
-        $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.svg';
+        $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.png';
         $user->save();
 
         return redirect()->route('user.index');
@@ -110,11 +111,11 @@ class UserController extends Controller
 
         if ($user->qr == null) {
             \QrCode::size(100)
-                ->format('svg')
-                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.svg'));
+                ->format('png')
+                ->generate($user->email, public_path('qrs\qr_' . str_replace(' ', '_', $user->name)  . '.png'));
 
             // Actualizamos ruta de qR
-            $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.svg';
+            $user->qr = 'qr_' . str_replace(' ', '_', $user->name)  . '.png';
             $user->save();
         }
 
