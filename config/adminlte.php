@@ -315,7 +315,7 @@ return [
             'icon'    => 'far fa-fw fa-user',
             'submenu' => [
                 [
-                    'text' => 'Ver Usuarios',
+                    'text' => 'Usuarios Registrados',
                     'url'  => 'user',
                 ],
                 [
@@ -330,7 +330,7 @@ return [
         ['header' => 'Configuracion de la Cuenta'],
         [
             'text' => 'Perfil',
-            'url'  => 'admin/settings',
+            'url'  => 'dashboard',
             'icon' => 'fas fa-fw fa-user',
         ],
         [
