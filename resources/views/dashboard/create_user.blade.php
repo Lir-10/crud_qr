@@ -1,60 +1,50 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Crear usuario') }}
-        </h2>
-    </x-slot>
+@extends('adminlte::page')
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-5">
-                <form method="POST" action="{{ route('user.store') }}">
-                    @csrf
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                            Nombre
-                        </label>
-                        <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                            id="name" name="name" type="text" :value="old('name')" required autofocus >
-                    </div>
+@section('title', 'Usuarios')
 
-                  <!--  <div>
-                        <x-input-label for="name"  />
+@section('content_header')
+    <h1>Crear Nuevo Usuario</h1>
+@stop
 
-                        <x-text-input id="name" class="block mt-1 w-full" type="text" name="name"  required autofocus />
-                    </div>
-                -->
-                    <div class="mt-4">
-                        <x-input-label for="email" :value="__('Correo')" />
+@section('content')
 
-                        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required />
-                    </div>
+<form method="POST" action="{{ route('user.store') }}">
+@csrf
+  <div class="mb-3">
+    <label for="email" class="form-label" for="name">Nombre</label>
+    <input type="name" class="form-control"id="name" name="name" type="text" :value="old('name')" required autofocus>
+    
+  </div>
+  <div class="mb-3">
+    <label for="email" class="form-label">Correo Electronico</label>
+    <input type="email" class="form-control" id="email" name="email" type="text" :value="old('email')" required autofocus>
+  </div>
+  <div class="mb-3">
+    <label for="password" class="form-label">Contraseña</label>
+    <input type="password" id="password" class="form-control"
+        type="password"
+        name="password"
+        required autocomplete="new-password" />
+   </div>
 
-                    <div class="mt-4">
-                        <x-input-label for="password" :value="__('Contraseña')" />
-
-                        <x-text-input id="password" class="block mt-1 w-full"
-                                        type="password"
-                                        name="password"
-                                        required autocomplete="new-password" />
-                    </div>
-
-                    <div class="mt-4">
-                        <x-input-label for="password_confirmation" :value="__('Confirmar Contraseña')" />
-
-                        <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                                        type="password"
-                                        name="password_confirmation" required />
-                    </div>
-                    <br>
-                    <div class="flex items-center justify-between">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
-                                Crear
-                        </button>
-                    </div>
-
-                </form>
-            </div>
-        </div>
+   <div class="mt-4">
+   <label for="password_confirmation" class="form-label"> Confirmar Contraseña</label>
+   <input id="password_confirmation" class="form-control"
+                 type="password"
+                 name="password_confirmation" required />
     </div>
-</x-app-layout>
+<br>
+  <button type="submit" class="btn btn-success">Crear Usuario</button>
+</form>
+
+
+
+@stop
+
+@section('css')
+    <link rel="stylesheet" href="/css/admin_custom.css">
+@stop
+
+@section('js')
+    <script> console.log('Hi!'); </script>
+@stop
