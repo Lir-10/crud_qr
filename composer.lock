@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "87fe775d29541d3c863f511c3d6eba95",
+    "content-hash": "44577f1ec4ee952a65413e91d1be6eb6",
     "packages": [
         {
             "name": "almasaeed2010/adminlte",
@@ -48,6 +48,55 @@
                 "source": "https://github.com/ColorlibHQ/AdminLTE/tree/v3.2.0"
             },
             "time": "2022-02-07T20:33:09+00:00"
+        },
+        {
+            "name": "artesanus/conekta-bundle",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/artesanus/conekta-bundle.git",
+                "reference": "ba17c2d2b3e650e6261e2b10a5cfed6e7113eb9f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/artesanus/conekta-bundle/zipball/ba17c2d2b3e650e6261e2b10a5cfed6e7113eb9f",
+                "reference": "ba17c2d2b3e650e6261e2b10a5cfed6e7113eb9f",
+                "shasum": ""
+            },
+            "require": {
+                "conekta/conekta-php": "^3.0"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-4": {
+                    "Artesanus\\ConektaBundle\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cristian Angulo Nova",
+                    "email": "cristianangulonova@gmail.com",
+                    "homepage": "http://cristianangulo.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "ConektaBundle",
+            "homepage": "https://www.artesan.us",
+            "keywords": [
+                "ConektaBundle",
+                "conekta",
+                "gateway",
+                "payment"
+            ],
+            "support": {
+                "issues": "https://github.com/artesanus/conekta-bundle/issues",
+                "source": "https://github.com/artesanus/conekta-bundle/tree/0.1.0"
+            },
+            "time": "2017-03-01T15:50:31+00:00"
         },
         {
             "name": "bacon/bacon-qr-code",
@@ -158,6 +207,58 @@
                 }
             ],
             "time": "2022-08-10T22:54:19+00:00"
+        },
+        {
+            "name": "conekta/conekta-php",
+            "version": "v3.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/conekta/conekta-php.git",
+                "reference": "3896bc5d8449c7728b48041516ec5bdbc07489dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/conekta/conekta-php/zipball/3896bc5d8449c7728b48041516ec5bdbc07489dc",
+                "reference": "3896bc5d8449c7728b48041516ec5bdbc07489dc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "php": ">=5.3"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/Conekta/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Conekta  and contributors",
+                    "homepage": "https://github.com/conekta/conekta-php/contributors"
+                }
+            ],
+            "description": "Conekta PHP Library",
+            "homepage": "https://www.conekta.io/",
+            "keywords": [
+                "api",
+                "conekta",
+                "payment processing"
+            ],
+            "support": {
+                "issues": "https://github.com/conekta/conekta-php/issues",
+                "source": "https://github.com/conekta/conekta-php/tree/v.3.5.1"
+            },
+            "time": "2017-09-07T22:05:05+00:00"
         },
         {
             "name": "dasprid/enum",

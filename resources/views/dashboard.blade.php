@@ -19,18 +19,36 @@
                         <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
                         <p class="text-muted text-center">{{ Auth::user()->email }}</p>
                         <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>Usuario registrado desde: </b> <a class="float-right">{{ Auth::user()->created_at }}</a>
-                        </li>
-
+                            <li class="list-group-item">
+                                <b>Usuario registrado desde: </b> 
+                                <a class="float-right">{{ Auth::user()->created_at }}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
+
+                <!--Menu Form -->
                 <div class="col-md-9">
                     <div class="card">
                         <div class="card-header p-2">
+
                             <ul class="nav nav-pills">
-                                <li class="nav-item"><a class="nav-link active" href="#settings" data-toggle="tab">Ajustes</a></li>
+                                <li class="nav-item">
+                                    <a class="nav-link active" href="#settings" data-toggle="tab">
+                                        Ajustes
+                                    </a>
+                                </li>
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#pago" data-toggle="tab">
+                                        Pago
+                                    </a>
+                                </li>
                             </ul>
+                            
+                            
+                                
+                            
                         </div>
                         <div class="card-body">
                             <div class="tab-content">
@@ -65,17 +83,23 @@
                                              </div>
                                         </div>
                                    </form>
+                                </div>
+                                <div class="tab-pane active" id="pago">
+
+
+                                </div>
+                                
+                            </div>
                         </div>
-                      </div>
-                     </div>
-                 </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 @stop
 
 @section('css')
-    <link rel="stylesheet" href="/css/admin_custom.css">
+    
 @stop
 
 @section('js')
