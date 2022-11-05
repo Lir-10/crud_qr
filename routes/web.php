@@ -27,6 +27,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 Route::get('user/{id}/qr',[UserController::class, 'showqr']);
+Route::get('/test', function(){
+    return view ('test');
+});
 
 require __DIR__.'/auth.php';
 //Route::resource('user', UserController::class)->middleware('auth');
