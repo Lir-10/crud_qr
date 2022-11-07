@@ -51,7 +51,7 @@
                                 
 
                                 <div class="tab-pane active" id="pago">                                                                                 
-                                    <script src="https://www.paypal.com/sdk/js?client-id=AZTLHy4blP-oJB7i1RT1cJ8fefNGbXjbZW5DYI09XJ_zxZ5d_UFLwR2Exerg0pg_2haDAbd7UusI6wrP"></script>
+                                    <script src="https://www.paypal.com/sdk/js?client-id=AQrmHMzVQASsajuB15io8QBTcwsN3KQeTIl4xqjgNZ-7LwSiTV-O_cOq72vANzexGzdIg6gAGZq-Cqy3&currency=MXN"></script>
                                         <!-- Set up a container element for the button -->
                                         <div id="paypal-button-container"></div>
                                         <script>
