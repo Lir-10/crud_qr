@@ -1,8 +1,12 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\{
+    UserController,
+    TestController,
+    TestPagos,
+};
+
 
 
 /*
@@ -30,7 +34,9 @@ Route::get('user/{id}/qr',[UserController::class, 'showqr']);
 Route::get('/test', function(){
     return view ('test');
 });
+Route::get('/process/payment', 'TestPagos@payment')->name('pagar');
 
 require __DIR__.'/auth.php';
+
 //Route::resource('user', UserController::class)->middleware('auth');
 

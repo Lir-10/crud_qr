@@ -18,12 +18,7 @@
                         </div>
                         <h3 class="profile-username text-center">{{ Auth::user()->name }}</h3>
                         <p class="text-muted text-center">{{ Auth::user()->email }}</p>
-                        <ul class="list-group list-group-unbordered mb-3">
-                            <li class="list-group-item">
-                                <b>Usuario registrado desde: </b> 
-                                <a class="float-right">{{ Auth::user()->created_at }}</a>
-                            </li>
-                        </ul>
+                        
                     </div>
                 </div>
 
@@ -32,12 +27,7 @@
                     <div class="card">
                         <div class="card-header p-2">
                             <ul class="nav nav-pills">
-                                <li class="nav-item">
-                                    <a class="nav-link active" href="#settings" data-toggle="tab">
-                                        Ajustes
-                                    </a>
-                                </li>
-
+                                
                                 <li class="nav-item">
                                     <a class="nav-link" href="#pago" data-toggle="tab">
                                         Pago PayPal
@@ -48,45 +38,19 @@
                                         Pago Conekta
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#pago3" data-toggle="tab">
+                                        Test
+                                    </a>
+                                </li>
                             </ul>                                                                               
                         </div>
 
                         <div class="card-body">
                             <div class="tab-content">
-                                <div class="tab-pane active" id="settings">
-                                    <form class="form-horizontal" action="{{ route('user.update', Auth::user()->id) }}" method="POST">
-                                        @csrf
-                                        @method('PUT')
-                                        <div class="form-group row">
-                                            <label for="inputName" class="col-sm-2 col-form-label">Nombre</label>
-                                            <div class="col-sm-10">
-                                                <input type="name" class="form-control" id="name" placeholder="{{ Auth::user()->name }}"  required>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label for="inputEmail" class="col-sm-2 col-form-label">Correo</label>
-                                            <div class="col-sm-10">
-                                                <input type="email" class="form-control" id="email" placeholder="{{ Auth::user()->email }}" required>
-                                            </div>
-                                        </div>                                       
-                                        <div class="form-group row">
-                                            <div class="offset-sm-2 col-sm-10">
-                                                <div class="checkbox">
-                                                    <label>
-                                                        <input type="checkbox"> I agree to the <a href="#">terms and conditions</a>
-                                                    </label>
-                                                 </div>
-                                            </div>
-                                        </div>
-                                       <div class="form-group row">
-                                           <div class="offset-sm-2 col-sm-10">
-                                               <button type="submit" class="btn btn-danger">Guardar</button>
-                                             </div>
-                                        </div>
-                                   </form>
-                                </div>
+                                
 
-                                <div class="tab-pane" id="pago">                                                                                 
+                                <div class="tab-pane active" id="pago">                                                                                 
                                     <script src="https://www.paypal.com/sdk/js?client-id=AZTLHy4blP-oJB7i1RT1cJ8fefNGbXjbZW5DYI09XJ_zxZ5d_UFLwR2Exerg0pg_2haDAbd7UusI6wrP"></script>
                                         <!-- Set up a container element for the button -->
                                         <div id="paypal-button-container"></div>
@@ -131,18 +95,129 @@
                                 </div>
 
                                 
-                                <div class="tab-pane" id="pago2">                                                                                 
-                                    <script src="https://pay.conekta.com/v1.0/js/components.js"></script>
-                                    <conekta-button 
-                                        locale="es"
-                                        size="medium" 
-                                        border="rounded" 
-                                        color="snowberry" 
-                                        logoConekta="show" 
-                                        checkoutId="21994fc0acb34d529e7e0a0b2667d67d">
-                                    </conekta-button>
-                                </div>
+                                <div class="tab-pane" id="pago2">  
+s
+                                </div>    
+                                <div class="tab-pane" id="pago3">
                                 
+                                <form id="card-form">
+                                    
+                                    <input type="hidden" name="conektaTokenId" id="conektaTokenId" value="">
+
+                                    <div class="card">
+                                        <div class="card-header">
+                                            <div class="row display-tr">
+                                                <h3>Pago en línea</h3>
+
+                                            </div>
+                                        </div>
+                                        <div class="card-body">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label>
+                                                        Nombre del tarjetahabiente
+                                                    </label>
+                                                    <input value="Juan Ramirez Ledesma" data-conekta="card[name]" class="form-control" name="name" id="name"  type="text" >
+                                                </div>
+                                                <div class="col-md-6">
+                                                        <label>
+                                                            Número de tarjeta
+                                                        </label>
+                                                        <input value="4242424242424242" name="card" id="card" data-conekta="card[number]" class="form-control"   type="text" maxlength="16" >
+                                                </div>
+                                            </div>
+
+                                            <div class="row">
+                                                    <div class="col-md-6">
+                                                        <label>
+                                                            CVC
+                                                        </label>
+                                                        <input value="399" data-conekta="card[cvc]" class="form-control"  type="text" maxlength="4" >
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                            <label>
+                                                                Fecha de expiración (MM/AA)
+                                                            </label>
+                                                            <div>
+                                                                <input style="width:50px; display:inline-block" value="11" data-conekta="card[exp_month]" class="form-control"  type="text" maxlength="2" >
+                                                                <input style="width:50px; display:inline-block" value="20" data-conekta="card[exp_year]" class="form-control"  type="text" maxlength="2" >
+
+                                                            </div>
+                                                    </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <label><span>Email</span></label>
+                                                    <input class="form-control" type="text" name="email" id="email" maxlength="200" value="pepepecaspicapapasconunpico666@gmail.com">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Concepto</label>
+                                                    <input class="form-control" type="text" name="description" id="description" maxlength="100" value="papitas">
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label>Monto</label>
+                                                    <input class="form-control" type="number" name="total" id="total" value="30">
+                                                </div>
+                                            
+                                            </div>
+                                            <br>
+                                            <div class="row">
+                                                    <div class="col-md-12" style="text-align:center;">
+                                                    <button class="btn btn-success btn-lg">
+                                                        <i class="fa fa-check-square"></i> PAGAR
+                                                    </button>
+                                                    </div>
+                                                
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                
+                                    
+                                </form>
+                                    
+                                    <script>
+                                        Conekta.setPublicKey("key_EkPdspW48AMiqMXnbKBFuHz");
+                                        
+                                        var conektaSuccessResponseHandler= function(token){                                        
+                                            $("#conektaTokenId").val(token.id);                                        
+                                            jsPay();
+                                        };
+                                        var conektaErrorResponseHandler =function(response){
+                                            var $form=$("#card-form");
+                                            alert(response.message_to_purchaser);
+                                        }
+                                        $(document).ready(function(){
+                                            $("#card-form").submit(function(e){
+                                                e.preventDefault();                                            
+                                                var $form=$("#card-form");
+                                                Conekta.Token.create($form,conektaSuccessResponseHandler,conektaErrorResponseHandler);
+                                            })
+                                            
+                                        })
+
+                                        function jsPay(){
+                                            let params=$("#card-form").serialize();
+                                            let url="pay.php";                                        
+                                            $.post(url,params,function(data){
+                                                if(data=="1"){
+                                                    alert("Se realizo el pago :D");
+                                                    jsClean();
+                                                }else{
+                                                    alert(data)
+                                                }
+                                            
+                                            })
+
+                                        }
+
+                                        function jsClean(){
+                                            $(".form-control").prop("value","");
+                                            $("#conektaTokenId").prop("value","");
+                                        }
+                                    </script>
+                                </div>
+                                    
                             </div>
                         </div>
                     </div>
@@ -158,4 +233,39 @@
 
 @section('js')
     <script> console.log('Hi!'); </script>
+    <script type="text/javascript">
+            jQuery(function($) {
+                
+                
+                var conektaSuccessResponseHandler;
+                conektaSuccessResponseHandler = function(token) {
+                    var $form;
+                    $form = $("#card-form");
+
+                    /* Inserta el token_id en la forma para que se envíe al servidor */
+                    $form.append($("<input type=\"hidden\" name=\"conektaTokenId\" />").val(token.id));
+
+                    /* and submit */
+                    $form.get(0).submit();
+                };
+                
+                conektaErrorResponseHandler = function(token) {
+                    console.log(token);
+                };
+                
+                $("#card-form").submit(function(event) {
+                    event.preventDefault();
+                    var $form;
+                    $form = $(this);
+
+                    /* Previene hacer submit más de una vez */
+                    $form.find("button").prop("disabled", true);
+                    Conekta.token.create($form, conektaSuccessResponseHandler, conektaErrorResponseHandler);
+                    /* Previene que la información de la forma sea enviada al servidor */
+                    return false;
+                });
+
+            });
+
+        </script>
 @stop

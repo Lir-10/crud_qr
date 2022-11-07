@@ -6,8 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
-        "almasaeed2010/adminlte": "~3.2",
-        "artesanus/conekta-bundle": "^0.1.0",
+        "almasaeed2010/adminlte": "~3.2",        
         "guzzlehttp/guzzle": "^7.2",
         "jeroennoten/laravel-adminlte": "^3.8",
         "laravel/framework": "^9.19",
@@ -15,7 +14,7 @@
         "laravel/tinker": "^2.7",
         "paypal/rest-api-sdk-php": "*",
         "simplesoftwareio/simple-qrcode": "~4",
-        "conekta/conekta-php": "*"
+        "conekta/conekta-php": "5.0.1"
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
