@@ -155,6 +155,28 @@ class TestPagos extends Controller
   
         return true;
       }
+      
+      public function process($orderId, Request $request)
+      {
+          $accessToken = $this->getAccessToken();
+      
+          $requestUrl = "/v2/checkout/orders/$orderId/capture";
+      
+          $response = $this->client->request('POST', $requestUrl, [
+              'headers' => [
+                  'Accept' => 'application/json',
+                  'Content-Type' => 'application/json',
+                  'Authorization' => "Bearer $accessToken"
+              ]
+          ]);
+      
+          $data = json_decode($response->getBody(), true);
+      
+          dd($data);
+          // ...
+      }
+
+
 
     /*public function Validate(){
         if($this->card=="" || $this->name=="" || $this->description=="" || $this->total=="" ||)

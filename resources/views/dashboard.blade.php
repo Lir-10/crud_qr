@@ -59,11 +59,15 @@
                                             // Order is created on the server and the order id is returned
                                             createOrder: (data, actions) => {
                                                 return actions.order.create({
+                                                    application_context: {
+                                                        shipping_preference: "NO_SHIPPING"
+                                                    },
                                                     purchase_units:[{
                                                         amount:{
                                                             value:'50'
                                                         }
                                                     }]
+                                                    
                                                 });
                                             return fetch("/api/orders", {
                                                 method: "post",
@@ -75,20 +79,8 @@
                                             },
                                             // Finalize the transaction on the server after payer approval
                                             onApprove: (data, actions) => {
-                                            return fetch(`/api/orders/${data.orderID}/capture`, {
-                                                method: "post",
-                                            })
-                                            .then((response) => response.json())
-                                            .then((orderData) => {
-                                                // Successful capture! For dev/demo purposes:
-                                                console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                                                const transaction = orderData.purchase_units[0].payments.captures[0];
-                                                alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
-                                                // When ready to go live, remove the alert and show a success message within this page. For example:
-                                                // const element = document.getElementById('paypal-button-container');
-                                                // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                                                // Or go to another URL:  actions.redirect('thank_you.html');
-                                            });
+                                                console.log('data', data);
+                                                console.log('actions', actions);
                                             }
                                         }).render('#paypal-button-container');
                                         </script>                                                                         
@@ -174,48 +166,7 @@ s
                                     </div>
                                 
                                     
-                                </form>
-                                    
-                                    <script>
-                                        Conekta.setPublicKey("key_EkPdspW48AMiqMXnbKBFuHz");
-                                        
-                                        var conektaSuccessResponseHandler= function(token){                                        
-                                            $("#conektaTokenId").val(token.id);                                        
-                                            jsPay();
-                                        };
-                                        var conektaErrorResponseHandler =function(response){
-                                            var $form=$("#card-form");
-                                            alert(response.message_to_purchaser);
-                                        }
-                                        $(document).ready(function(){
-                                            $("#card-form").submit(function(e){
-                                                e.preventDefault();                                            
-                                                var $form=$("#card-form");
-                                                Conekta.Token.create($form,conektaSuccessResponseHandler,conektaErrorResponseHandler);
-                                            })
-                                            
-                                        })
-
-                                        function jsPay(){
-                                            let params=$("#card-form").serialize();
-                                            let url="pay.php";                                        
-                                            $.post(url,params,function(data){
-                                                if(data=="1"){
-                                                    alert("Se realizo el pago :D");
-                                                    jsClean();
-                                                }else{
-                                                    alert(data)
-                                                }
-                                            
-                                            })
-
-                                        }
-
-                                        function jsClean(){
-                                            $(".form-control").prop("value","");
-                                            $("#conektaTokenId").prop("value","");
-                                        }
-                                    </script>
+                                </form>                                                                
                                 </div>
                                     
                             </div>
