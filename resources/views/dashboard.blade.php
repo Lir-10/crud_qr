@@ -148,11 +148,11 @@ s
                                             <div class="row">
                                                 <div class="col-md-4">
                                                     <label><span>Email</span></label>
-                                                    <input class="form-control" type="text" name="email" id="email" maxlength="200" value="pepepecaspicapapasconunpico666@gmail.com">
+                                                    <input class="form-control" type="text" name="email" id="email" maxlength="200" value="lir@gmail.com">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Concepto</label>
-                                                    <input class="form-control" type="text" name="description" id="description" maxlength="100" value="papitas">
+                                                    <input class="form-control" type="text" name="description" id="description" maxlength="100" value="producto1">
                                                 </div>
                                                 <div class="col-md-4">
                                                     <label>Monto</label>
