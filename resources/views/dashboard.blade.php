@@ -51,16 +51,22 @@
                                 
 
                                 <div class="tab-pane active" id="pago">                                                                                 
-                                    <script src="https://www.paypal.com/sdk/js?client-id=AQrmHMzVQASsajuB15io8QBTcwsN3KQeTIl4xqjgNZ-7LwSiTV-O_cOq72vANzexGzdIg6gAGZq-Cqy3&currency=MXN"></script>
-                                        <!-- Set up a container element for the button -->
+                                    <script src="https://www.paypal.com/sdk/js?client-id={{ env('PAYPAL_CLIENT_ID')}}&currency={{ env('PAYPAL_CURRENCY')}}"></script>
+                                        
                                         <div id="paypal-button-container"></div>
                                         <script>
                                         paypal.Buttons({
-                                            // Order is created on the server and the order id is returned
+                                            
+                                            fundingSource: paypal.FUNDING.CARD,
+
                                             createOrder: (data, actions) => {
                                                 return actions.order.create({
                                                     application_context: {
                                                         shipping_preference: "NO_SHIPPING"
+                                                    },
+                                                    payer:{
+                                                        email_address:"{{ Auth::user()->email }}",
+                                                        
                                                     },
                                                     purchase_units:[{
                                                         amount:{
@@ -69,15 +75,13 @@
                                                     }]
                                                     
                                                 });
-                                            return fetch("/api/orders", {
-                                                method: "post",
-                                                // use the "body" param to optionally pass additional order information
-                                                // like product ids or amount
-                                            })
+                                            return fetch("/paypal/process" + data.orderID, { method:post })
+                                            
                                             .then((response) => response.json())
                                             .then((order) => order.id);
+                                            
                                             },
-                                            // Finalize the transaction on the server after payer approval
+                                            
                                             onApprove: (data, actions) => {
                                                 console.log('data', data);
                                                 console.log('actions', actions);

@@ -3,7 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
     UserController,
-    TestController,
     TestPagos,
 };
 
@@ -34,7 +33,7 @@ Route::get('user/{id}/qr',[UserController::class, 'showqr']);
 Route::get('/test', function(){
     return view ('test');
 });
-Route::get('/process/payment', 'TestPagos@payment')->name('pagar');
+
 Route::get('/paypal/process/{orderId}', 'TestPagos@process')->name('paypal.process');
 
 require __DIR__.'/auth.php';

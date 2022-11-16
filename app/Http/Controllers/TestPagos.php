@@ -6,156 +6,47 @@ use Illuminate\Http\Request;
 use Conekta\Conekta;
 use ConektaCheckoutComponents;
 use Conekta\Checkout;
+use App\Models\User;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class TestPagos extends Controller
 {   
-    private $ApiKey="key_g3lldWl93zu3kUIc1hFFu7j";
-    private $ApiVersion="2.0.0";
-
-    private $UserDB="root";
-    private $PassDB="";
-    private $ServerDB="localhost";
-    private $DataBaseDB="laravel";
-
-    public function __construct($token,$card,$name,$description,$total,$email){
-
-        $this->token=$token;
-        $this->card=$card;
-        $this->name=$name;
-        $this->description=$description;
-        $this->total=$total;
-        $this->email=$email;
-    }
-
-    public function Pay(){
-
-        \Conekta\Conekta::setApiKey($this->ApiKey);
-        \Conekta\Conekta::setApiVersion($this->ApiVersion);
-
-        if(!$this->Validate())
-            return false;
-
-        if(!$this->CreateCustomer())
-            return false;
-
-        if(!$this->CreateOrder())
-            return false;
-
-        $this->Save();
-
-        return true;
-
-    }
-
-    public function Save(){
-        $link = new PDO("mysql:host=".$this->ServerDB.";dbname=".$this->DataBaseDB, $this->UserDB, $this->PassDB);
+  private $client;
+  private $clientId;
+  private $secret;
   
-        $statement = $link->prepare("INSERT INTO payment (total,date_created,description,name,number_card,email,order_id)
-            VALUES (:total, now(), :description,:name,:number_card,:email,:order_id)");
-  
-        $statement->execute([
-            'total' => $this->total,
-            'description' => $this->description,
-            'name' => utf8_decode($this->name),
-            'number_card'=> substr($this->card,strlen($this->card)-5,4),
-            'email'=>$this->email,
-            'order_id'=>$this->order->id
-        ]);
-        
-        $this->order_number = $link->lastInsertId();
+      public function __construct()
+      {
+          $this->client = new Client([
+              // 'base_uri' => 'https://api-m.paypal.com'
+              'base_uri' => 'https://api-m.sandbox.paypal.com'
+          ]);
       
-      }
-
-    public function CreateOrder(){
-        try{
-         
-          $this->order = \Conekta\Order::create(
-            array(
-              "amount"=>$this->total,
-              "line_items" => array(
-                array(
-                  "name" => $this->description,
-                  "unit_price" => $this->total*100, //se multiplica por 100 conekta
-                  "quantity" => 1
-                )//first line_item
-              ), //line_items
-              "currency" => "MXN",
-              "customer_info" => array(
-                "customer_id" => $this->customer->id 
-              ), //customer_info
-              "charges" => array(
-                  array(
-                      "payment_method" => array(
-                              "type" => "default"
-                      ) 
-                  ) //first charge
-              ) //charges
-            )//order
-          );
-        } catch (\Conekta\ProcessingError $error){
-          $this->error=$error->getMessage();
-          return false;
-        } catch (\Conekta\ParameterValidationError $error){
-          $this->error=$error->getMessage();
-          return false;
-        } catch (\Conekta\Handler $error){
-          $this->error=$error->getMessage();
-          return false;
-        }
-  
-        return true;
-      }
-    public function CreateCustomer(){
-        try {
-          $this->customer = \Conekta\Customer::create(
-            array(
-              "name" => $this->name,
-              "email" => $this->email,
-              //"phone" => "+52181818181",
-              "payment_sources" => array(
-                array(
-                    "type" => "card",
-                    "token_id" => $this->token
-                )
-              )//payment_sources
-            )//customer
-          );
-        } catch (\Conekta\ProccessingError $error){
-          $this->error=$error->getMesage();
-          return false;
-        } catch (\Conekta\ParameterValidationError $error){
-          $this->error=$error->getMessage();
-          return false;
-        } catch (\Conekta\Handler $error){
-          $this->error=$error->getMessage();
-          return false;
-        }
-  
-        return true;
-    }
-
-    public function Validate(){
-        if($this->card=="" || $this->name=="" || $this->description=="" || $this->total=="" || $this->email==""){
-          $this->error="El número de tarjeta, el nombre, concepto, monto y correo electrónico son obligatorios";
-          return false;
-        }
-       
-        if(strlen($this->card)<=14){
-          $this->error="El número de tarjeta debe tener al menos 15 caracteres";
-          return false;
-        }
-        if(!filter_var($this->email, FILTER_VALIDATE_EMAIL)){
-          $this->error="El correo electrónico no tiene un formato de correo valido";
-          return false;
-        }
-        if($this->total<=20){
-          $this->error="El monto debe ser mayor a 20 pesos";
-          return false;
-        }
-  
-        return true;
+          $this->clientId = env('PAYPAL_CLIENT_ID');
+          $this->secret = env('PAYPAL_SECRET');
       }
       
+      private function getAccessToken(){
+
+        $response = $this->client->request('POST', '/v1/oauth2/token', [
+          'headers' => [
+              'Accept' => 'application/json',
+              'Content-Type' => 'application/x-www-form-urlencoded',
+          ],
+          'body' => 'grant_type=client_credentials',
+          'auth' => [
+              $this->clientId, $this->secret, 'basic'
+            ]
+        ]
+     );
+
+    $data = json_decode($response->getBody(), true);
+    return $data['access_token'];
+}
+
+
+
       public function process($orderId, Request $request)
       {
           $accessToken = $this->getAccessToken();
@@ -174,6 +65,33 @@ class TestPagos extends Controller
       
           dd($data);
           // ...
+
+          if ($data['status'] === 'COMPLETED') {
+           
+        
+            // Obtener el paymentId y el monto pagado, de $data
+            $payPalPaymentId = $data['purchase_units'][0]['payments']['captures'][0]['id'];
+            $amount = $data['purchase_units'][0]['payments']['captures'][0]['amount']['value'];
+        
+            // Registrar un pago exitoso en la BD
+            $payment = $this->registerSuccessfulPayment($solution, $amount, $payPalPaymentId);
+        
+            // Dar una respuesta de error si el pago no se pudo registrar
+            if (!$payment) {
+                return $this->responseFailure();
+            }
+        
+            // Dar una respuesta de éxito si todo salió bien
+            return [
+                'success' => true,
+                'url' => "dashboard/sucess",
+                'payment_id' => $payment->id,
+                'amount' => $amount
+            ];
+        }
+        
+        // Dar una respuesta de error si el status no es COMPLETED
+        return $this->responseFailure();
       }
 
 
