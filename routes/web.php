@@ -31,3 +31,7 @@ Route::get('user/{id}/qr',[UserController::class, 'showqr']);
 require __DIR__.'/auth.php';
 //Route::resource('user', UserController::class)->middleware('auth');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
