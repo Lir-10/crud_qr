@@ -86,6 +86,8 @@
                                 </div>
                                 <div class="tab-pane active" id="pago">
 
+                                <script src="https://www.paypal.com/sdk/js?client-id=YOUR_CLIENT_ID"></script>
+
 
                                 </div>
                                 
